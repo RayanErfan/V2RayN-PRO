@@ -67,7 +67,6 @@
     {
       "protocol": "freedom",
       "settings": {
-        "domainStrategy": "UseIP",
         "fragment": {
           "interval": "10-20",
           "length": "10-20",
@@ -76,6 +75,7 @@
       },
       "streamSettings": {
         "sockopt": {
+          "domainStrategy": "UseIP",
           "tcpKeepAliveIdle": 100,
           "tcpNoDelay": true
         }
@@ -98,8 +98,7 @@
                 "encryption": "none",
                 "flow": "",
                 "id": "79fec513-71a0-4460-a5f6-92a23e4b4c83",
-                "level": 8,
-                "security": "auto"
+                "level": 8
               }
             ]
           }
@@ -109,7 +108,6 @@
         "network": "ws",
         "security": "tls",
         "tlsSettings": {
-          "allowInsecure": false,
           "alpn": [
             "h2",
             "http/1.1"
@@ -118,9 +116,7 @@
           "serverName": "google.com"
         },
         "wsSettings": {
-          "headers": {
-            "Host": "google.com"
-          },
+          "host": "google.com",
           "path": "/"
         }
       },
@@ -155,7 +151,7 @@
       "statsOutboundUplink": true
     }
   },
-  "remarks": "\u26A1\uFE0F Frag - WorkerLess ( Youtube, X , ... )",
+  "remarks": "⚡️ Frag - WorkerLess ( Youtube, X , ... )",
   "routing": {
     "domainStrategy": "IPIfNonMatch",
     "rules": [

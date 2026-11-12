@@ -1,0 +1,143 @@
+name: Build and publish V2RayN-PRO
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release tag (empty = V2RayN-PROv<date>)"
+        required: false
+        default: ""
+      v2rayn_version:
+        description: "v2rayN tag ('latest' or e.g. 7.25.6)"
+        required: false
+        default: "latest"
+      singboxplus_version:
+        description: "sing-box-plus tag ('latest' or e.g. v1.14.4)"
+        required: false
+        default: "latest"
+      xray_version:
+        description: "MahsaNG Xray tag ('latest' or e.g. v1.26.10-mahsa-r2)"
+        required: false
+        default: "latest"
+      mihomo_version:
+        description: "mihomo tag ('latest' or e.g. v1.19.34)"
+        required: false
+        default: "latest"
+      force:
+        description: "Build even if upstream versions did not change"
+        type: boolean
+        required: false
+        default: false
+  push:
+    tags:
+      - "V2RayN-PROv*"
+  schedule:
+    # Every Monday 03:17 UTC - rebuild only when an upstream component changed.
+    - cron: "17 3 * * 1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  resolve:
+    name: Resolve upstream versions
+    runs-on: windows-latest
+    outputs:
+      changed: ${{ steps.compare.outputs.changed }}
+      version: ${{ steps.version.outputs.value }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve versions
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ./scripts/build-release.ps1 -ResolveOnly -OutputDir resolved `
+            -V2rayNVersion "${{ inputs.v2rayn_version || 'latest' }}" `
+            -SingBoxPlusVersion "${{ inputs.singboxplus_version || 'latest' }}" `
+            -XrayVersion "${{ inputs.xray_version || 'latest' }}" `
+            -MihomoVersion "${{ inputs.mihomo_version || 'latest' }}"
+
+      - name: Compute release tag
+        id: version
+        shell: pwsh
+        run: |
+          $v = "${{ inputs.version }}"
+          if (-not $v) { $v = $env:GITHUB_REF_NAME }
+          if (-not $v -or $v -eq 'master' -or $v -eq 'main') {
+            $v = "V2RayN-PROv" + (Get-Date -Format 'yyyy.MM.dd')
+          }
+          "value=$v" >> $env:GITHUB_OUTPUT
+          Write-Host "Release tag: $v"
+
+      - name: Compare with the latest release
+        id: compare
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $changed = 'true'
+          if ("${{ github.event_name }}" -eq 'push' -or "${{ inputs.force }}" -eq 'true') {
+            Write-Host "Forced build for event ${{ github.event_name }}"
+          }
+          else {
+            try {
+              $latest = gh release view --json tagName -q .tagName
+              if ($latest) {
+                gh release download $latest --pattern versions.json --dir previous --clobber
+                $old = Get-Content previous/versions.json -Raw | ConvertFrom-Json
+                $new = Get-Content resolved/versions.json -Raw | ConvertFrom-Json
+                $keys = 'v2rayN', 'singBoxPlus', 'xrayMahsa', 'mihomo', 'iranGeo'
+                $diff = $keys | Where-Object { $old.$_ -ne $new.$_ }
+                if (-not $diff) {
+                  Write-Host "Upstream unchanged since $latest - nothing to do."
+                  $changed = 'false'
+                }
+                else {
+                  Write-Host "Changed components: $($diff -join ', ')"
+                }
+              }
+            }
+            catch {
+              Write-Host "No comparable release found, building: $($_.Exception.Message)"
+            }
+          }
+          "changed=$changed" >> $env:GITHUB_OUTPUT
+
+  build:
+    name: Build package
+    needs: resolve
+    if: needs.resolve.outputs.changed == 'true'
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ./scripts/build-release.ps1 -Version "${{ needs.resolve.outputs.version }}" `
+            -V2rayNVersion "${{ inputs.v2rayn_version || 'latest' }}" `
+            -SingBoxPlusVersion "${{ inputs.singboxplus_version || 'latest' }}" `
+            -XrayVersion "${{ inputs.xray_version || 'latest' }}" `
+            -MihomoVersion "${{ inputs.mihomo_version || 'latest' }}"
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.resolve.outputs.version }}
+          name: ${{ needs.resolve.outputs.version }}
+          body_path: output/release-notes.md
+          files: |
+            output/*.zip
+            output/SHA256SUMS.txt
+            output/versions.json
+          fail_on_unmatched_files: true
+          draft: false
+          prerelease: false

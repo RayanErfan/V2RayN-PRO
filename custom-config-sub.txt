@@ -3,25 +3,25 @@
     "dns": {
       "hosts": {
         "cloudflare-dns.com": [
-                    "104.16.248.249",
-                    "104.16.249.249",
-                    "104.16.133.229",
-                    "104.16.132.229",
-                    "104.17.147.22",
-                    "104.17.148.22",
-                    "172.64.33.103",
-                    "108.162.193.103",
-                    "173.245.59.103",
-                    "172.64.32.128",
-                    "108.162.192.128",
-                    "173.245.58.128"
+          "104.16.248.249",
+          "104.16.249.249",
+          "104.16.133.229",
+          "104.16.132.229",
+          "104.17.147.22",
+          "104.17.148.22",
+          "172.64.33.103",
+          "108.162.193.103",
+          "173.245.59.103",
+          "172.64.32.128",
+          "108.162.192.128",
+          "173.245.58.128"
         ],
         "geosite:category-ads-all": "127.0.0.1",
         "geosite:category-ads-ir": "127.0.0.1",
         "geosite:category-porn": "127.0.0.1"
       },
       "servers": [
-                "https:\/\/cloudflare-dns.com\/dns-query"
+        "https://cloudflare-dns.com/dns-query"
       ],
       "tag": "dns"
     },
@@ -36,8 +36,8 @@
         },
         "sniffing": {
           "destOverride": [
-                        "http",
-                        "tls"
+            "http",
+            "tls"
           ],
           "enabled": true
         },
@@ -53,8 +53,8 @@
         },
         "sniffing": {
           "destOverride": [
-                        "http",
-                        "tls"
+            "http",
+            "tls"
           ],
           "enabled": true
         },
@@ -68,7 +68,6 @@
       {
         "protocol": "freedom",
         "settings": {
-          "domainStrategy": "UseIP",
           "fragment": {
             "interval": "10-20",
             "length": "10-20",
@@ -77,6 +76,7 @@
         },
         "streamSettings": {
           "sockopt": {
+            "domainStrategy": "UseIP",
             "tcpKeepAliveIdle": 100,
             "tcpNoDelay": true
           }
@@ -99,8 +99,7 @@
                   "encryption": "none",
                   "flow": "",
                   "id": "79fec513-71a0-4460-a5f6-92a23e4b4c83",
-                  "level": 8,
-                  "security": "auto"
+                  "level": 8
                 }
               ]
             }
@@ -110,18 +109,15 @@
           "network": "ws",
           "security": "tls",
           "tlsSettings": {
-            "allowInsecure": false,
             "alpn": [
-                            "h2",
-                            "http\/1.1"
+              "h2",
+              "http/1.1"
             ],
             "fingerprint": "chrome",
             "serverName": "google.com"
           },
           "wsSettings": {
-            "headers": {
-              "Host": "google.com"
-            },
+            "host": "google.com",
             "path": "/"
           }
         },
@@ -129,8 +125,7 @@
       },
       {
         "protocol": "freedom",
-        "settings": {
-        },
+        "settings": {},
         "tag": "direct"
       },
       {
@@ -164,8 +159,8 @@
         {
           "enabled": true,
           "inboundTag": [
-                        "socks-in",
-                        "http-in"
+            "socks-in",
+            "http-in"
           ],
           "outboundTag": "dns-out",
           "port": "53",
@@ -173,16 +168,16 @@
         },
         {
           "ip": [
-                        "geoip:private"
+            "geoip:private"
           ],
           "outboundTag": "direct",
           "type": "field"
         },
         {
           "domain": [
-                        "geosite:category-ads-all",
-                        "geosite:category-ads-ir",
-                        "geosite:category-porn"
+            "geosite:category-ads-all",
+            "geosite:category-ads-ir",
+            "geosite:category-porn"
           ],
           "outboundTag": "block",
           "type": "field"
@@ -194,24 +189,23 @@
         }
       ]
     },
-    "stats": {
-    }
+    "stats": {}
   },
   {
     "dns": {
       "hosts": {
         "cloudflare-dns.com": [
-                    "1.0.0.2",
-                    "1.1.1.2"
+          "1.0.0.2",
+          "1.1.1.2"
         ],
         "geosite:category-porn": "127.0.0.1"
       },
       "servers": [
-                "security.cloudflare-dns.com",
+        "security.cloudflare-dns.com",
         {
           "address": "8.8.8.8",
           "domains": [
-                        "geosite:category-ir"
+            "geosite:category-ir"
           ],
           "port": 53
         }
@@ -229,8 +223,8 @@
         },
         "sniffing": {
           "destOverride": [
-                        "http",
-                        "tls"
+            "http",
+            "tls"
           ],
           "enabled": true,
           "routeOnly": false
@@ -255,8 +249,8 @@
         "protocol": "wireguard",
         "settings": {
           "address": [
-                        "172.16.0.2\/32",
-                        "2606:4700:110:82a9:aee1:90bb:f76e:594c\/128"
+            "172.16.0.2/32",
+            "2606:4700:110:82a9:aee1:90bb:f76e:594c/128"
           ],
           "mtu": 1280,
           "peers": [
@@ -267,9 +261,9 @@
             }
           ],
           "reserved": [
-                        123,
-                        122,
-                        166
+            123,
+            122,
+            166
           ],
           "secretKey": "cOGcZkmjnE2EBIg4JLNO5KZfiM6dNttAXHIqEFnFnG4=",
           "wnoise": "quic",
@@ -281,8 +275,7 @@
       },
       {
         "protocol": "freedom",
-        "settings": {
-        },
+        "settings": {},
         "tag": "direct"
       },
       {
@@ -319,46 +312,46 @@
       "rules": [
         {
           "inboundTag": [
-                        "dns-in"
+            "dns-in"
           ],
           "outboundTag": "dns-out"
         },
         {
           "ip": [
-                        "8.8.8.8"
+            "8.8.8.8"
           ],
           "outboundTag": "direct",
           "port": "53"
         },
         {
           "ip": [
-                        "10.10.34.34",
-                        "10.10.34.35",
-                        "10.10.34.36"
+            "10.10.34.34",
+            "10.10.34.35",
+            "10.10.34.36"
           ],
           "outboundTag": "block"
         },
         {
           "domain": [
-                        "geosite:category-porn"
+            "geosite:category-porn"
           ],
           "outboundTag": "block"
         },
         {
           "ip": [
-                        "geoip:private"
+            "geoip:private"
           ],
           "outboundTag": "direct"
         },
         {
           "ip": [
-                        "geoip:ir"
+            "geoip:ir"
           ],
           "outboundTag": "direct"
         },
         {
           "domain": [
-                        "geosite:category-ir"
+            "geosite:category-ir"
           ],
           "outboundTag": "direct"
         },
@@ -368,24 +361,23 @@
         }
       ]
     },
-    "stats": {
-    }
+    "stats": {}
   },
   {
     "dns": {
       "hosts": {
         "cloudflare-dns.com": [
-                    "1.0.0.2",
-                    "1.1.1.2"
+          "1.0.0.2",
+          "1.1.1.2"
         ],
         "geosite:category-porn": "127.0.0.1"
       },
       "servers": [
-                "security.cloudflare-dns.com",
+        "security.cloudflare-dns.com",
         {
           "address": "8.8.8.8",
           "domains": [
-                        "geosite:category-ir"
+            "geosite:category-ir"
           ],
           "port": 53
         }
@@ -412,8 +404,8 @@
         "protocol": "wireguard",
         "settings": {
           "address": [
-                        "172.16.0.2\/32",
-                        "2606:4700:110:82a9:aee1:90bb:f76e:594c\/128"
+            "172.16.0.2/32",
+            "2606:4700:110:82a9:aee1:90bb:f76e:594c/128"
           ],
           "mtu": 1280,
           "peers": [
@@ -424,9 +416,9 @@
             }
           ],
           "reserved": [
-                        123,
-                        122,
-                        166
+            123,
+            122,
+            166
           ],
           "secretKey": "cOGcZkmjnE2EBIg4JLNO5KZfiM6dNttAXHIqEFnFnG4=",
           "wnoise": "quic",
@@ -447,19 +439,18 @@
       "rules": [
         {
           "inboundTag": [
-                        "warp-in"
+            "warp-in"
           ],
           "outboundTag": "proxy"
         },
         {
           "inboundTag": [
-                        "dns-in"
+            "dns-in"
           ],
           "outboundTag": "dns-out"
         }
       ]
     },
-    "stats": {
-    }
+    "stats": {}
   }
 ]
