@@ -1,0 +1,23 @@
+# build output
+/output/
+/resolved/
+/previous/
+/dist/
+
+# archives
+*.zip
+*.7z
+*.rar
+
+# logs / caches
+*.log
+cache.db
+guiLogs/
+binConfigs/
+
+# local editor files
+.vs/
+.vscode/
+*.user
+Thumbs.db
+desktop.ini

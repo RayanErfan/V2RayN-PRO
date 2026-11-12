@@ -1,34 +1,37 @@
 {
   "IndexId": "5061510167910718375",
   "SubIndexId": "4723723187883255307",
-  "RunningCoreType": 24,
   "CoreBasicItem": {
     "LogEnabled": false,
     "Loglevel": "warning",
-    "MuxEnabled": false,
-    "DefAllowInsecure": false,
     "DefFingerprint": "firefox",
     "DefUserAgent": "firefox",
+    "SendThrough": null,
+    "BindInterface": null,
     "EnableFragment": true,
+    "EnableFinalFragment": false,
     "EnableCacheFile4Sbox": true
   },
   "TunModeItem": {
     "EnableTun": false,
+    "AutoRoute": true,
     "StrictRoute": true,
     "Stack": "mixed",
     "Mtu": 9000,
-    "EnableExInbound": false,
     "EnableIPv6Address": true,
-    "LinuxSudoPwd": null
+    "IcmpRouting": null,
+    "EnableLegacyProtect": true,
+    "RouteExcludeAddress": null,
+    "IPv4Address": null,
+    "IPv6Address": null
   },
   "KcpItem": {
     "Mtu": 1350,
     "Tti": 50,
     "UplinkCapacity": 12,
     "DownlinkCapacity": 100,
-    "Congestion": false,
-    "ReadBufferSize": 2,
-    "WriteBufferSize": 2
+    "CwndMultiplier": 1,
+    "MaxSendingWindow": 2097152
   },
   "GrpcItem": {
     "IdleTimeout": null,
@@ -39,7 +42,6 @@
   "RoutingBasicItem": {
     "DomainStrategy": "AsIs",
     "DomainStrategy4Singbox": null,
-    "DomainMatcher": null,
     "RoutingIndexId": "5662777957270848102"
   },
   "GuiItem": {
@@ -48,10 +50,10 @@
     "DisplayRealTimeSpeed": true,
     "KeepOlderDedupl": false,
     "AutoUpdateInterval": 0,
-    "EnableSecurityProtocolTls13": true,
     "TrayMenuServersLimit": 20,
     "EnableHWA": false,
-    "EnableLog": true
+    "EnableLog": true,
+    "RootCertProvider": "system"
   },
   "MsgUIItem": {
     "MainMsgFilter": "",
@@ -59,9 +61,6 @@
   },
   "UiItem": {
     "EnableAutoAdjustMainLvColWidth": true,
-    "EnableUpdateSubOnlyRemarksExist": false,
-    "MainWidth": 1349,
-    "MainHeight": 784,
     "MainGirdHeight1": 334,
     "MainGirdHeight2": 333,
     "MainGirdOrientation": 1,
@@ -74,6 +73,7 @@
     "DoubleClick2Activate": true,
     "AutoHideStartup": false,
     "Hide2TrayWhenClose": false,
+    "MacOSShowInDock": false,
     "MainColumnItem": [
       {
         "Name": "ConfigType",
@@ -141,7 +141,8 @@
         "Index": 12
       }
     ],
-    "ShowInTaskbar": true
+    "WindowSizeItem": [],
+    "HideColumnIpInfo": false
   },
   "ConstItem": {
     "SubConvertUrl": "",
@@ -153,7 +154,11 @@
     "SpeedTestTimeout": 10,
     "SpeedTestUrl": "https://speed.cloudflare.com/__down?bytes=100000000",
     "SpeedPingTestUrl": "https://www.google.com/generate_204",
-    "MixedConcurrencyCount": 5
+    "MixedConcurrencyCount": 10,
+    "IPAPIUrl": null,
+    "UdpTestTarget": "ntp:pool.ntp.org",
+    "SpeedTestPageSize": null,
+    "SpeedTestDelayInterval": null
   },
   "Mux4RayItem": {
     "Concurrency": 8,
@@ -171,20 +176,22 @@
     "HopInterval": 30
   },
   "ClashUIItem": {
-    "RuleMode": 0,
     "EnableIPv6": false,
     "EnableMixinContent": false,
     "ProxiesSorting": 2,
     "ProxiesAutoRefresh": true,
-    "ProxiesAutoDelayTestInterval": 10,
+    "ProxiesRefreshInterval": 2,
     "ConnectionsAutoRefresh": true,
-    "ConnectionsRefreshInterval": 2
+    "ConnectionsRefreshInterval": 2,
+    "ConnectionsColumnItem": []
   },
   "SystemProxyItem": {
     "SysProxyType": 0,
     "SystemProxyExceptions": "localhost;127.*;10.*;172.16.*;172.17.*;172.18.*;172.19.*;172.20.*;172.21.*;172.22.*;172.23.*;172.24.*;172.25.*;172.26.*;172.27.*;172.28.*;172.29.*;172.30.*;172.31.*;192.168.*",
     "NotProxyLocalAddress": true,
-    "SystemProxyAdvancedProtocol": null
+    "SystemProxyAdvancedProtocol": null,
+    "CustomSystemProxyPacPath": null,
+    "CustomSystemProxyScriptPath": null
   },
   "WebDavItem": {
     "Url": null,
@@ -193,17 +200,24 @@
     "DirName": null
   },
   "CheckUpdateItem": {
-    "CheckPreReleaseUpdate": true,
+    "UpdateViaProxy": true,
     "SelectedCoreTypes": [
       "v2rayN",
       "Xray",
       "mihomo",
-      "sing_box",
       "GeoFiles"
-    ]
+    ],
+    "CheckPreReleaseCoreTypes": null
   },
   "Fragment4RayItem": {
     "Packets": "tlshello",
+    "Lengths": [
+      "10-20"
+    ],
+    "Delays": [
+      "10-20"
+    ],
+    "MaxSplit": "0",
     "Length": "10-20",
     "Interval": "10-20"
   },
@@ -267,5 +281,31 @@
       "ConfigType": 10,
       "CoreType": 2
     }
-  ]
+  ],
+  "SimpleDNSItem": {
+    "UseSystemHosts": false,
+    "AddCommonHosts": true,
+    "FakeIP": false,
+    "GlobalFakeIp": true,
+    "FakeIPRange": "198.18.0.0/15",
+    "BlockBindingQuery": true,
+    "BlockAAAAQuery": false,
+    "DirectDNS": "119.29.29.29",
+    "RemoteDNS": "https://cloudflare-dns.com/dns-query",
+    "BootstrapDNS": "119.29.29.29",
+    "Strategy4Freedom": null,
+    "Strategy4Proxy": null,
+    "Strategy4ProxyDial": null,
+    "ServeStale": false,
+    "ParallelQuery": false,
+    "Hosts": null,
+    "DirectExpectedIPs": null,
+    "EnableHappyEyeballs": false
+  },
+  "HappyEyeballs4RayItem": {
+    "TryDelayMs": 250,
+    "PrioritizeIPv6": false,
+    "Interleave": 1,
+    "MaxConcurrentTry": 4
+  }
 }
